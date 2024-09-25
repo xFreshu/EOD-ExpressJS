@@ -1,28 +1,24 @@
 import express from 'express';
-import { createConnection } from 'typeorm';
+import { AppDataSource } from './config/data-source';
+import dotenv from 'dotenv';
 
+dotenv.config();
 
 const app = express();
 
-// Middleware
 app.use(express.json());
 
-// Routes
-//app.use('/api', exampleRoutes);
+AppDataSource.initialize()
+  .then(() => {
+    console.log('Data Source has been initialized!');
+  })
+  .catch((error) => {
+    console.error('Error during Data Source initialization', error);
+  });
 
-// Error handling
-//app.use(errorHandler);
-
-// Database connection
-/*
-createConnection()
-  .then(() => console.log('Connected to database'))
-  .catch((error) => console.log('Database connection error:', error));
-*/
+// TODO: Add your routes here
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
-
-export default app;
