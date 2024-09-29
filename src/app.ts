@@ -1,6 +1,7 @@
 import express from 'express';
 import { AppDataSource } from './config/data-source';
 import dotenv from 'dotenv';
+import logger from './config/logger';
 
 dotenv.config();
 
@@ -16,9 +17,12 @@ AppDataSource.initialize()
     console.error('Error during Data Source initialization', error);
   });
 
-// TODO: Add your routes here
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+});
+
+app.get('/', (req, res) => {
+  logger.info('App is running');
+  res.send('Hello World!');
 });
